@@ -2,8 +2,10 @@ br
 .col-md-12.text-center
   - if signed_in?
     = link_to "退出",  destroy_user_session_path, method: :delete, class: "btn btn-danger"
-  - else
-    = link_to "登录", new_user_session_path, class: "btn btn-primary"
 br
-.col-md-12.text-center
-  h3 请登录
+.col-md-12
+  h1 This is user show page.
+  h5 
+    |email:
+    = current_user.email
+  h1
