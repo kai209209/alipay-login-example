@@ -6,12 +6,12 @@ class User < ActiveRecord::Base
 
   def self.redirect_to_alipay_login_gateway
     options = { "service" => "alipay.auth.authorize",
-                "partner" => "填写申请的alipay id", 
+                "partner" => "xxxxxxxxxxx", #申请的alipay id
                 "_input_charset" => "utf-8", 
-                "return_url" =>  "abc.com:3000(本地调试)", 
+                "return_url" =>  "xxxxxxxxxxxx", #回调的接口,处理登录, 例如开发环境abc.com:3000/sign_from_alipay
                 "target_service" => "user.auth.quick.login" }
     options.merge!("sign_type" => "MD5", 
-                   "sign" => Digest::MD5.hexdigest(options.sort.map{|k, v| "#{k}=#{v}"}.join("&") + "填写申请的alipay key"))
+                   "sign" => Digest::MD5.hexdigest(options.sort.map{|k, v| "#{k}=#{v}"}.join("&") + "xxxxxxxxxxxxx(#申请的alipay key)"))
     "https://mapi.alipay.com/gateway.do?#{options.sort.map{|k,v|"#{CGI::escape(k.to_s)}=#{CGI::escape(v.to_s)}"}.join("&")}"
   end
 
@@ -26,7 +26,7 @@ class User < ActiveRecord::Base
     url = URI("https://mapi.alipay.com/gateway.do")
     url.query = URI.encode_www_form(
       'service' => 'notify_id',
-      'partner' => '填写申请的alipay id',
+      'partner' => "xxxxxxxxxxx", #申请的alipay id
       'notify_id' => notify_id
     )
     Net::HTTP.get(url) == "true"
