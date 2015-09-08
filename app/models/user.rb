@@ -21,4 +21,14 @@ class User < ActiveRecord::Base
       user.name = params[:real_name]
     end
   end
+
+  def self.alipay_valid_check(notify_id)
+    url = URI("https://mapi.alipay.com/gateway.do")
+    url.query = URI.encode_www_form(
+      'service' => 'notify_id',
+      'partner' => '填写申请的alipay id',
+      'notify_id' => notify_id
+    )
+    Net::HTTP.get(url) == "true"
+  end
 end
